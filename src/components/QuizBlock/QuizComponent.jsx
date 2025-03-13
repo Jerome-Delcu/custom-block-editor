@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Radio, Input, Button } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import './style.css'
 
 const QuizComponent = ({ data, onDataChange, readOnly }) => {
   const [quizData, setQuizData] = useState({
@@ -34,9 +35,9 @@ const QuizComponent = ({ data, onDataChange, readOnly }) => {
   };
 
   return (
-    <div className="p-4 border rounded-md shadow-sm bg-white mt-5">
+    <div className="quiz-card">
       {readOnly ? (
-        <h3 className="text-base poppins font-medium">{quizData.question}</h3>
+        <h3 className="quiz-question">{quizData.question}</h3>
       ) : (
         <Input
           placeholder="Enter your question..."
@@ -45,16 +46,16 @@ const QuizComponent = ({ data, onDataChange, readOnly }) => {
         />
       )}
 
-      <div className="mt-3 space-y-2">
+      <div className="quiz-options">
         <Radio.Group
           value={readOnly ? selected : quizData.correctIndex}
           onChange={(e) => handleOptionChange(e.target.value)}
           disabled={readOnly && submitted}
-          className="w-full flex flex-col gap-2"
+          className="parent-radio"
         >
           {quizData.options.map((option, index) => (
             <Radio key={index} value={index}>
-              <div className="flex items-center gap-2">
+              <div className="option">
                 {readOnly ? (
                   option
                 ) : (
@@ -80,7 +81,7 @@ const QuizComponent = ({ data, onDataChange, readOnly }) => {
 
                 {/* ✅ Show "Correct" beside the correct option after submit */}
                 {readOnly && submitted && index === quizData.correctIndex && (
-                  <h2 className="text-green-600 flex items-center gap-1 ml-3 font-semibold poppins"><CheckOutlined className="text-sm" /></h2>
+                  <h2 className="correct-text"><CheckOutlined className="correct-tick" /></h2>
                 )}
               </div>
             </Radio>
@@ -90,7 +91,7 @@ const QuizComponent = ({ data, onDataChange, readOnly }) => {
 
       {!readOnly && (
         <Button
-          className="mt-2"
+          style={{ marginTop: "8px" }}
           onClick={() => setQuizData({ ...quizData, options: [...quizData.options, "Edit me"] })}
         >
           Add Option
@@ -99,7 +100,7 @@ const QuizComponent = ({ data, onDataChange, readOnly }) => {
 
       {readOnly && (
         <Button
-          className="mt-2"
+          style={{ marginTop: "8px" }}
           type="primary"
           disabled={selected === null || submitted}
           onClick={() => setSubmitted(true)}
