@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ce-block__content p,
+.ce-block__content ce-paragraph {
+    letter-spacing: 0.05em; /* Equivalent to tracking-wider */
+    font-size: 12px; /* Equivalent to text-[12px] */
+    color: #6b7280; /* Equivalent to text-gray-500 */
+}
+
+.ce-block__content h1 {
+    font-size: 32px; /* Equivalent to text-[32px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 800; /* Equivalent to font-extrabold */
+}
+
+.ce-block__content h2 {
+    font-size: 24px; /* Equivalent to text-[24px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 700; /* Equivalent to font-bold */
+}
+
+.ce-block__content h3 {
+    font-size: 18px; /* Equivalent to text-[18px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 700; /* Equivalent to font-bold */
+}
+
+.ce-block__content h4 {
+    font-size: 16px; /* Equivalent to text-[16px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 600; /* Equivalent to font-semibold */
+}
+
+.ce-block__content h5 {
+    font-size: 14px; /* Equivalent to text-[14px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 600; /* Equivalent to font-semibold */
+}
+
+.ce-block__content h6 {
+    font-size: 14px; /* Equivalent to text-[14px] */
+    line-height: 1.25; /* Equivalent to leading-5 */
+    font-weight: 600; /* Equivalent to font-semibold */
+}
