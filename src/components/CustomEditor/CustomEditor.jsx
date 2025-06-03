@@ -1,67 +1,49 @@
-import React, { useEffect } from "react";
-import '../../index.css'
-import EditorJS from '@editorjs/editorjs'
+import React, { useEffect, useState } from "react";
+import "../../index.css";
+import EditorJS from "@editorjs/editorjs";
 import { getEditorJsTools } from "../../helper/tools";
 
 const CustomEditor = ({ name, editorRef, readMode, content, imageByFile }) => {
+  const [readyToRender, setReadyToRender] = useState(false);
 
   useEffect(() => {
-    if (!editorRef.current) {
-      const editor = new EditorJS({
-        holder: name,
-        readOnly: readMode,
-        tools: getEditorJsTools(imageByFile),
-        data: content
-        // data: {
-        //   time: 1635603431943,
-        //   blocks: [
-        //     {
-        //       id: "sheNwCUP5A",
-        //       type: "header",
-        //       data: { text: "Editor.js", level: 2 },
-        //     },
-        //     {
-        //       id: "12iM3lqzcm",
-        //       type: "paragraph",
-        //       data: {
-        //         text: "Hey. Meet the new Editor. Try to edit this text.",
-        //       },
-        //     },
-        //     {
-        //       id: "FF1iyF3VwN",
-        //       type: "image",
-        //       data: {
-        //         file: {
-        //           url: "https://codex.so/public/app/img/external/codex2x.png",
-        //         },
-        //         caption: "Example Image",
-        //         withBorder: false,
-        //         stretched: false,
-        //         withBackground: false,
-        //       },
-        //     },
-        //     {
-        //       type: "quiz",
-        //       data: {
-        //         question: "What is 2 + 2?",
-        //         options: ["3", "4"],
-        //         correctIndex: 1,
-        //       },
-        //     },
-        //   ],
-        // },
-      });
-      editorRef.current = editor;
-    }
+    // Delay mount to ensure container div is in the DOM
+    setReadyToRender(true);
+  }, []);
 
-    return () => {
-      if (editorRef.current && editorRef.current.destroy) {
-        editorRef.current.destroy();
+  useEffect(() => {
+    if (!readyToRender) return;
+
+    let editor;
+
+    const initEditor = async () => {
+      try {
+        editor = new EditorJS({
+          holder: name,
+          readOnly: readMode,
+          tools: getEditorJsTools(imageByFile),
+          data: content,
+          onReady: () => {
+            editorRef.current = editor;
+          },
+        });
+      } catch (err) {
+        console.error("EditorJS initialization error:", err);
       }
     };
-  }, []);
+
+    initEditor();
+
+    return () => {
+      if (editor) {
+        editor.isReady
+          .then(() => editor.destroy())
+          .catch((e) => console.warn("Error destroying editor", e));
+      }
+    };
+  }, [readyToRender, name, content, readMode, imageByFile]);
 
   return <div id={name} />;
 };
 
-export default CustomEditor
+export default CustomEditor;
